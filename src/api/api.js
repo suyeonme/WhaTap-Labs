@@ -1,11 +1,13 @@
+// import axios from 'axios';
+
 const DEMO_PROJECT_API_TOCKEN = 'XGJHUSQZTI2AVIENWA27HI5V';
 const DEMO_PROJECT_CODE = 5490;
-const OPEN_API_HEADERS = {
+export const OPEN_API_HEADERS = {
   'x-whatap-pcode': DEMO_PROJECT_CODE,
   'x-whatap-token': DEMO_PROJECT_API_TOCKEN,
 };
 
-const OPEN_API_ROOT = 'https://service.whatap.io/open/api';
+export const OPEN_API_ROOT = 'https://service.whatap.io/open/api';
 
 const OPEN_API = {
   '': {
@@ -67,5 +69,10 @@ const getOpenApi = type => (key, param) =>
 
 const spot = getOpenApi('');
 const series = getOpenApi('json');
+
+// export const instance = axios.create({
+//   baseURL: OPEN_API_ROOT,
+//   headers: OPEN_API_HEADERS,
+// });
 
 export default { spot, series };

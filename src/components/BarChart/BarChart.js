@@ -1,5 +1,8 @@
-import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 import useFirstRender from '../../hooks/useFirstRender';
+import { OPEN_API_HEADERS, OPEN_API_ROOT } from '../../api/api';
 
 /*
   act_method
@@ -9,43 +12,74 @@ import useFirstRender from '../../hooks/useFirstRender';
   act_socket
 */
 
-function BarChart({ fetchSpotData }) {
-  const isFirstRender = useFirstRender();
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState({});
+function BarChart() {
+  const [method, setMethod] = useState({
+    name: 'Method',
+    data: 0,
+  });
+  const [sql, setSql] = useState({
+    name: 'Sql',
+    data: 0,
+  });
+  const [httpc, setHttpc] = useState({ name: 'Httpc', data: 0 });
+  const [dbc, setDbc] = useState({ name: 'Dbc', data: 0 });
+  const [socket, setSocket] = useState({ name: 'Socket', data: 0 });
 
-  const fetchData = useCallback(async () => {
-    await fetchSpotData('act_method', setData);
-    await fetchSpotData('act_sql', setData);
-    await fetchSpotData('act_httpc', setData);
-    await fetchSpotData('act_dbc', setData);
-    await fetchSpotData('act_socket', setData);
-    setIsLoading(false);
-  }, [fetchSpotData]);
+  const isFristRender = useFirstRender();
+
+  const fetchData = () => {
+    const informatics = [
+      'act_method',
+      'act_sql',
+      'act_httpc',
+      'act_dbc',
+      'act_socket',
+    ];
+
+    const requests = informatics.map(endpoint => {
+      return axios.get(OPEN_API_ROOT + '/' + endpoint, {
+        headers: OPEN_API_HEADERS,
+      });
+    });
+
+    return Promise.all(requests)
+      .then(([method, sql, httpc, dbc, socket]) => {
+        setMethod(prev => ({ ...prev, data: method.data }));
+        setSql(prev => ({ ...prev, data: sql.data }));
+        setHttpc(prev => ({ ...prev, data: httpc.data }));
+        setDbc(prev => ({ ...prev, data: dbc.data }));
+        setSocket(prev => ({ ...prev, data: socket.data }));
+      })
+      .catch(error => console.log(error));
+  };
 
   useEffect(() => {
-    if (isFirstRender) {
-      fetchData();
+    if (isFristRender) {
+      // fetchData();
     } else {
-      const actAgent = setInterval(() => {
-        fetchData();
-      }, 5000);
-      return () => clearInterval(actAgent);
+      // const timer = setTimeout(() => fetchData(), 5000);
+      // return () => clearTimeout(timer);
     }
-  }, [isFirstRender, fetchData]);
+  }, [isFristRender]);
 
   return (
     <div>
       <h1>Active Status</h1>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        Object.keys(data).map((el, i) => (
-          <div key={i}>
-            {data[el].name}: {data[el].data}
-          </div>
-        ))
-      )}
+      <p>
+        {method.name}: {method.data}
+      </p>
+      <p>
+        {sql.name}: {sql.data}
+      </p>
+      <p>
+        {httpc.name}: {httpc.data}
+      </p>
+      <p>
+        {dbc.name}: {dbc.data}
+      </p>
+      <p>
+        {socket.name}: {socket.data}
+      </p>
     </div>
   );
 }
