@@ -3,7 +3,7 @@ import Dashboard from './containers/Dashboard/Dashboard';
 const HOUR = 1000 * 60 * 60;
 
 /*
-  (1) How to fetch multiple data at once with setInterval(setTimeout)?
+  (1) How to fetch multiple data at once with setInterval?
   - Promise.all
   - Custom Hooks (useFetch / useMultipleFetch)
   - Axios / create

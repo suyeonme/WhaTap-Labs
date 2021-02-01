@@ -60,8 +60,8 @@ function Informatics() {
     if (isFristRender) {
       fetchData();
     } else {
-      const timer = setTimeout(() => fetchData(), 5000);
-      return () => clearTimeout(timer);
+      const timer = setInterval(() => fetchData(), 5000);
+      return () => clearInterval(timer);
     }
   }, [isFristRender]);
 
