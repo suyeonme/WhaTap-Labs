@@ -1,31 +1,45 @@
-import { useEffect, useState } from 'react'
-import api from './api'
-const HOUR = 1000 * 60 * 60
-function App() {
-  const [actAgent, setActAgent] = useState()
-  const [httpcSeries, setHttpcSeries] = useState()
+import { useCallback } from 'react';
 
-  useEffect(() => {
-    api.spot('act_agent').then((result) => setActAgent(result))
-    api
-      .series('exception/{stime}/{etime}', { stime: Date.now() - HOUR, etime: Date.now() })
-      .then((result) => setHttpcSeries(result))
-  }, [])
+import api from './api';
+import Informatics from './components/Informatics/Informatics';
+import BarChart from './components/BarChart/BarChart';
+
+const HOUR = 1000 * 60 * 60;
+
+/*
+  (1) How to fetch multiple data at once with setInterval?
+  - Promise.all
+  - Custom Hooks (useFetch / useMultipleFetch)
+  - Axios
+
+  (2) State Management
+*/
+
+function App() {
+  const fetchSpotData = useCallback((endpoint, setState) => {
+    api.spot(endpoint).then(result =>
+      setState(prev => ({
+        ...prev,
+        [result.key]: {
+          name: result.name,
+          data: result.data,
+        },
+      }))
+    );
+  }, []);
 
   return (
     <div style={{ padding: 20 }}>
       <h1>Open API (Application)</h1>
-      <a href='https://docs.whatap.io/kr/appendix/open_api_application.pdf' target='_blank'>
-        가이드 문서
-      </a>
-      <h2>프로젝트 API 예시</h2>
-      <h3>Spot 정보 조회 URL</h3>
-      <pre>{JSON.stringify(actAgent, null, 4)}</pre>
+      {/* <Dashboard /> */}
+      <Informatics fetchSpotData={fetchSpotData} />
+      {/* <BarChart fetchSpotData={fetchSpotData} /> */}
+      {/* <pre>{JSON.stringify(actAgent, null, 4)}</pre> */}
       <hr />
-      <h3>통계 정보 조회 URL</h3>
-      <pre>{JSON.stringify(httpcSeries, null, 4)}</pre>
+      {/* <h3>통계 정보 조회 URL</h3> */}
+      {/* <pre>{JSON.stringify(httpcSeries, null, 4)}</pre> */}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
