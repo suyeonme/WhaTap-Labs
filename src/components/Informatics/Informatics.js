@@ -1,86 +1,24 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import useFetch from '../../hooks/useFetch';
 
-import { OPEN_API_HEADERS, OPEN_API_ROOT } from '../../api/api';
-import useFirstRender from '../../hooks/useFirstRender';
+function Informatics({ endpoints, title }) {
+  const [data, loading, error] = useFetch(endpoints);
 
-// Show "Loading..." when fetching data
-// setInterval & Initial Loading
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
-/*
-  (1) Combine state into one state
+  if (loading) {
+    return <p>loading...</p>;
+  }
 
-  const [data, setData] = usetState({
-    act_agent: 0,
-    inact_agent: 0,
-    host: 0,
-    cpucore: 0,
-  })
-
-  (2) Update each state using data's name
-*/
-
-function Informatics() {
-  // Combine states into one state
-  const [actAgent, setActAgent] = useState({
-    name: '활성 애플리케이션',
-    data: 0,
-  });
-  const [inactAgent, setInactAgent] = useState({
-    name: '비활성 애플리케이션',
-    data: 0,
-  });
-  const [host, setHost] = useState({ name: 'Hosts', data: 0 });
-  const [cpucore, setCpuCore] = useState({ name: 'CPU 코어', data: 0 });
-
-  const isFristRender = useFirstRender();
-
-  const fetchData = () => {
-    // Create a custom Hook (useFetchMultiData)
-    const informatics = ['act_agent', 'inact_agent', 'host', 'cpucore'];
-
-    const requests = informatics.map(endpoint => {
-      return axios.get(OPEN_API_ROOT + '/' + endpoint, {
-        headers: OPEN_API_HEADERS,
-      });
-    });
-
-    return Promise.all(requests)
-      .then(([actAgent, inactAgent, host, cpucore]) => {
-        setActAgent(prev => ({ ...prev, data: actAgent.data }));
-        setInactAgent(prev => ({ ...prev, data: inactAgent.data }));
-        setHost(prev => ({ ...prev, data: host.data }));
-        setCpuCore(prev => ({ ...prev, data: cpucore.data }));
-      })
-      .catch(error => console.log(error));
-  };
-
-  useEffect(() => {
-    fetchData();
-    if (isFristRender) {
-      fetchData();
-    } else {
-      const timer = setInterval(() => fetchData(), 5000);
-      return () => clearInterval(timer);
-    }
-  }, [isFristRender]);
-
-  // Mapping
   return (
     <div>
-      <h1>Informatics</h1>
-      <p>
-        {actAgent.name}: {actAgent.data}
-      </p>
-      <p>
-        {inactAgent.name}: {inactAgent.data}
-      </p>
-      <p>
-        {host.name}: {host.data}
-      </p>
-      <p>
-        {cpucore.name}: {cpucore.data}
-      </p>
+      <h1>{title}</h1>
+      {data.map(d => (
+        <p key={d.name}>
+          {d.name}: {d.data}
+        </p>
+      ))}
     </div>
   );
 }

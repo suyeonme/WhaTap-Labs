@@ -8,11 +8,20 @@ import BarChart from '../../components/BarChart/BarChart';
   - Line Chart
 */
 function Dashboard({ title }) {
+  const informatics = ['act_agent', 'inact_agent', 'host', 'cpucore'];
+  const activeStatus = [
+    'act_method',
+    'act_sql',
+    'act_httpc',
+    'act_dbc',
+    'act_socket',
+  ];
+
   return (
     <div>
       <h1>{title}</h1>
-      <Informatics />
-      <BarChart />
+      <Informatics endpoints={informatics} title="Informatics" />
+      <BarChart endpoints={activeStatus} title="Active Status" />
     </div>
   );
 }

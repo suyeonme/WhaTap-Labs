@@ -1,13 +1,11 @@
-// import axios from 'axios';
-
 const DEMO_PROJECT_API_TOCKEN = 'XGJHUSQZTI2AVIENWA27HI5V';
 const DEMO_PROJECT_CODE = 5490;
-export const OPEN_API_HEADERS = {
+const OPEN_API_HEADERS = {
   'x-whatap-pcode': DEMO_PROJECT_CODE,
   'x-whatap-token': DEMO_PROJECT_API_TOCKEN,
 };
 
-export const OPEN_API_ROOT = 'https://service.whatap.io/open/api';
+const OPEN_API_ROOT = 'https://service.whatap.io/open/api';
 
 const OPEN_API = {
   '': {
@@ -70,9 +68,16 @@ const getOpenApi = type => (key, param) =>
 const spot = getOpenApi('');
 const series = getOpenApi('json');
 
-// export const instance = axios.create({
-//   baseURL: OPEN_API_ROOT,
-//   headers: OPEN_API_HEADERS,
-// });
+const delay = (ms = 1000) => new Promise(r => setTimeout(r, ms));
 
-export default { spot, series };
+const getDataSeries = async items => {
+  let results = [];
+  for (let index = 0; index < items.length; index++) {
+    await delay();
+    const res = await spot(items[index]);
+    results.push({ name: res.name, data: res.data });
+  }
+  return results;
+};
+
+export default { spot, series, getDataSeries };
