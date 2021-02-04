@@ -1,35 +1,35 @@
 import { useEffect, useState, useCallback } from 'react';
 
-import useFirstRender from './useFirstRender';
-import api from '../api/api';
-
-// isFirstRender ? Fetch right away : setInterval()
+import api from 'api/api';
 
 const useFetch = endpoints => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const isFirstRender = useFirstRender(); // (*)
-
   const fetchData = useCallback(
     async endpoints => {
+      const temp = [];
+
       try {
-        const res = await api.getDataSeries(endpoints);
-        setData(res);
-        setLoading(false);
-        console.log(data);
-      } catch (error) {
-        setError(error);
+        await setLoading(false);
+        for (let i of endpoints) {
+          const res = await api.spot(i);
+          await temp.push(res);
+        }
+        await setData(temp);
+        setTimeout(() => fetchData(endpoints), 20000);
+      } catch (err) {
+        await setError(error);
+        setTimeout(() => fetchData(endpoints), 20000);
       }
     },
-    [data]
+    [error]
   );
 
   useEffect(() => {
-    const timer = setInterval(() => fetchData(endpoints), 5000);
-    return () => clearInterval(timer);
-  });
+    fetchData(endpoints);
+  }, [fetchData, endpoints]);
 
   return [data, loading, error];
 };

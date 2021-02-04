@@ -68,16 +68,16 @@ const getOpenApi = type => (key, param) =>
 const spot = getOpenApi('');
 const series = getOpenApi('json');
 
-const delay = (ms = 1000) => new Promise(r => setTimeout(r, ms));
+// const delay = (ms = 1000) => new Promise(r => setTimeout(r, ms));
 
-const getDataSeries = async items => {
-  let results = [];
-  for (let index = 0; index < items.length; index++) {
-    await delay();
-    const res = await spot(items[index]);
-    results.push({ name: res.name, data: res.data });
-  }
-  return results;
-};
+// const getDataSeries = async items => {
+//   let results = [];
+//   for (let index = 0; index < items.length; index++) {
+//     await delay();
+//     const res = await spot(items[index]);
+//     results.push({ name: res.name, data: res.data });
+//   }
+//   return results;
+// };
 
-export default { spot, series, getDataSeries };
+export default { spot, series };

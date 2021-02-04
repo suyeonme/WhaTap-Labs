@@ -1,27 +1,33 @@
-import Informatics from '../../components/Informatics/Informatics';
-import BarChart from '../../components/BarChart/BarChart';
+import styled from 'styled-components';
+import Informatics from 'components/Informatics/Informatics';
+import BarChart from 'components/BarChart/BarChart';
 
-/*
-  Apply antd Layout
-  - Informatics
-  - Bar Chart
-  - Line Chart
-*/
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 3rem 0;
+`;
+
+const INFORMATICS = ['act_agent', 'inact_agent', 'host', 'cpucore'];
+const ACTIVE_STATUS = [
+  'act_method',
+  'act_sql',
+  'act_httpc',
+  'act_dbc',
+  'act_socket',
+];
+
+// Naming -> Panel
+
 function Dashboard({ title }) {
-  const informatics = ['act_agent', 'inact_agent', 'host', 'cpucore'];
-  const activeStatus = [
-    'act_method',
-    'act_sql',
-    'act_httpc',
-    'act_dbc',
-    'act_socket',
-  ];
-
   return (
     <div>
       <h1>{title}</h1>
-      <Informatics endpoints={informatics} title="Informatics" />
-      <BarChart endpoints={activeStatus} title="Active Status" />
+      <Wrapper>
+        <Informatics endpoints={INFORMATICS} title="Informatics" />
+        <BarChart endpoints={ACTIVE_STATUS} title="Active Status" />
+        {/* <LineCart /> */}
+      </Wrapper>
     </div>
   );
 }

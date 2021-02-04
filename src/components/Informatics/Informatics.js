@@ -1,4 +1,4 @@
-import useFetch from '../../hooks/useFetch';
+import useFetch from 'hooks/useFetch';
 
 function Informatics({ endpoints, title }) {
   const [data, loading, error] = useFetch(endpoints);
