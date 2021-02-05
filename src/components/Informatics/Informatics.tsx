@@ -1,6 +1,12 @@
-import useFetch from 'hooks/useFetch';
+import useFetch from 'src/hooks/useFetch';
+import { Endpoints, Data } from 'src/types/types';
 
-function Informatics({ endpoints, title }) {
+interface InformaticsProps {
+  endpoints: Endpoints;
+  title: string;
+}
+
+function Informatics({ endpoints, title }: InformaticsProps) {
   const [data, loading, error] = useFetch(endpoints);
 
   if (error) {
@@ -14,9 +20,9 @@ function Informatics({ endpoints, title }) {
   return (
     <div>
       <h1>{title}</h1>
-      {data.map(d => (
+      {data.map((d: Data) => (
         <p key={d.name}>
-          {d.name}: {d.data}
+          {d.name} {d.data}
         </p>
       ))}
     </div>

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import Informatics from 'components/Informatics/Informatics';
-import BarChart from 'components/BarChart/BarChart';
+
+import { Endpoints } from 'src/types/types';
+import Informatics from 'src/components/Informatics/Informatics';
+import BarChart from 'src/components/BarChart/BarChart';
 
 const Wrapper = styled.div`
   display: flex;
@@ -8,8 +10,12 @@ const Wrapper = styled.div`
   margin: 3rem 0;
 `;
 
-const INFORMATICS = ['act_agent', 'inact_agent', 'host', 'cpucore'];
-const ACTIVE_STATUS = [
+interface DashboardProps {
+  title: string;
+}
+
+const INFORMATICS: Endpoints = ['act_agent', 'inact_agent', 'host', 'cpucore'];
+const ACTIVE_STATUS: Endpoints = [
   'act_method',
   'act_sql',
   'act_httpc',
@@ -17,9 +23,7 @@ const ACTIVE_STATUS = [
   'act_socket',
 ];
 
-// Naming -> Panel
-
-function Dashboard({ title }) {
+function Dashboard({ title }: DashboardProps) {
   return (
     <div>
       <h1>{title}</h1>

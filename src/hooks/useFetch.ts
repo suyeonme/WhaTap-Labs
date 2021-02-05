@@ -1,20 +1,23 @@
 import { useEffect, useState, useCallback } from 'react';
 
-import api from 'api/api';
+import api from 'src/api/api';
+import { Data, GroupData } from 'src/types/types';
 
-const useFetch = endpoints => {
-  const [data, setData] = useState([]);
+type DataStatus = [GroupData, boolean, string];
+
+const useFetch = (endpoints: string[]): DataStatus => {
+  const [data, setData] = useState<GroupData>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
 
   const fetchData = useCallback(
-    async endpoints => {
-      const temp = [];
+    async (endpoints: string[]): Promise<any> => {
+      const temp: GroupData = [];
 
       try {
         await setLoading(false);
         for (let i of endpoints) {
-          const res = await api.spot(i);
+          const res: Data = await api.spot(i);
           await temp.push(res);
         }
         await setData(temp);

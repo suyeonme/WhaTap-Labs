@@ -1,6 +1,6 @@
-import Dashboard from 'containers/Dashboard/Dashboard';
+import Dashboard from 'src/components/Dashboard/Dashboard';
 
-const HOUR = 1000 * 60 * 60;
+const HOUR: number = 1000 * 60 * 60;
 
 function App() {
   return (

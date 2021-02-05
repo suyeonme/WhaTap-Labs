@@ -1,13 +1,23 @@
-const DEMO_PROJECT_API_TOCKEN = 'XGJHUSQZTI2AVIENWA27HI5V';
-const DEMO_PROJECT_CODE = 5490;
-const OPEN_API_HEADERS = {
+interface Header {
+  [key: string]: string | number;
+}
+interface HttpHeader {
+  headers: HeadersInit;
+}
+interface OpenApi {
+  [key: string]: any;
+}
+
+const DEMO_PROJECT_API_TOCKEN: string = 'XGJHUSQZTI2AVIENWA27HI5V';
+const DEMO_PROJECT_CODE: number = 5490;
+const OPEN_API_HEADERS: Header = {
   'x-whatap-pcode': DEMO_PROJECT_CODE,
   'x-whatap-token': DEMO_PROJECT_API_TOCKEN,
 };
 
-const OPEN_API_ROOT = 'https://service.whatap.io/open/api';
+const OPEN_API_ROOT: string = 'https://service.whatap.io/open/api';
 
-const OPEN_API = {
+const OPEN_API: OpenApi = {
   '': {
     act_agent: '활성화 상태의 에이전트 수',
     inact_agent: '비활성화 상태의 에이전트 수',
@@ -35,28 +45,31 @@ const OPEN_API = {
   },
 };
 
-const getPath = (url, param = {}) => {
-  let path = url;
+const getPath = (url: string, param: OpenApi = {}): string => {
+  let path: string = url;
   for (let key in param) {
     path = path.replace(new RegExp('\\{' + key + '\\}', 'g'), param[key]);
   }
   return path;
 };
 
-const getOpenApi = type => (key, param) =>
+const getOpenApi = (type: string) => (
+  key: string,
+  param?: OpenApi
+): Promise<any> =>
   new Promise((resolve, reject) => {
-    if (key in OPEN_API[type]) {
+    if (key! in OPEN_API[type]) {
       return resolve({
         url: [OPEN_API_ROOT, type, key].join('/'),
-        name: OPEN_API[type][key],
+        name: OPEN_API[type][key!],
       });
     } else {
       reject('잘못된 API 정보');
     }
-  }).then(({ url, name }) =>
+  }).then(({ url, name }: any) =>
     fetch(getPath(url, param), {
       headers: OPEN_API_HEADERS,
-    })
+    } as HttpHeader)
       .then(response => response.json())
       .then(data => ({
         key,
@@ -67,17 +80,5 @@ const getOpenApi = type => (key, param) =>
 
 const spot = getOpenApi('');
 const series = getOpenApi('json');
-
-// const delay = (ms = 1000) => new Promise(r => setTimeout(r, ms));
-
-// const getDataSeries = async items => {
-//   let results = [];
-//   for (let index = 0; index < items.length; index++) {
-//     await delay();
-//     const res = await spot(items[index]);
-//     results.push({ name: res.name, data: res.data });
-//   }
-//   return results;
-// };
 
 export default { spot, series };
