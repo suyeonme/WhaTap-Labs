@@ -19,26 +19,26 @@ const OPEN_API_ROOT: string = 'https://service.whatap.io/open/api';
 
 const OPEN_API: OpenApi = {
   '': {
-    act_agent: '활성화 상태의 에이전트 수',
-    inact_agent: '비활성화 상태의 에이전트 수',
-    host: '호스트 수',
+    act_agent: '활성화 상태의 에이전트',
+    inact_agent: '비활성화 상태의 에이전트',
+    host: '호스트',
     cpucore: '호스트의 CPU 코어 합',
-    txcount: '트랜잭션 수',
-    tps: '초당 트랜잭션 수',
-    user: '5분간 집계된 고유 사용자 수',
-    actx: '액티브 트랜잭션 수',
+    txcount: '트랜잭션',
+    tps: '초당 트랜잭션',
+    user: '5분간 집계된 고유 사용자',
+    actx: '액티브 트랜잭션',
     rtime: '평균 응답 시간',
     cpu: 'CPU 사용률',
-    threadpool_active: '쓰레드풀 활성 쓰레드 수',
-    threadpool_queue: '쓰레드풀 큐잉 쓰레드 수',
-    dbc_count: '전체 DB Connection 수',
-    dbc_active: '활성(Active) DB Connection 수',
-    dbc_idle: '비활성(Idle) DB Connection 수',
-    act_method: '액티브 Method 수',
-    act_sql: '액티브 SQL 수',
-    act_httpc: '액티브 HTTP Call 수',
-    act_dbc: '액티브 DB Connection 수',
-    act_socket: '액티브 Socket 수',
+    threadpool_active: '쓰레드풀 활성 쓰레드',
+    threadpool_queue: '쓰레드풀 큐잉 쓰레드',
+    dbc_count: '전체 DB Connection',
+    dbc_active: '활성(Active) DB Connection',
+    dbc_idle: '비활성(Idle) DB Connection',
+    act_method: '액티브 Method',
+    act_sql: '액티브 SQL',
+    act_httpc: '액티브 HTTP Call',
+    act_dbc: '액티브 DB Connection',
+    act_socket: '액티브 Socket',
   },
   json: {
     'exception/{stime}/{etime}': 'Exception 발생 ',
@@ -80,5 +80,17 @@ const getOpenApi = (type: string) => (
 
 const spot = getOpenApi('');
 const series = getOpenApi('json');
+
+// const delay = (ms = 1000) => new Promise(r => setTimeout(r, ms));
+
+// const getDataSeries = async items => {
+//   let results = [];
+//   for (let index = 0; index < items.length; index++) {
+//     await delay();
+//     const res = await spot(items[index]);
+//     results.push({ name: res.name, data: res.data });
+//   }
+//   return results;
+// };
 
 export default { spot, series };

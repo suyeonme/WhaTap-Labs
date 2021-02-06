@@ -9,9 +9,9 @@ import {
   schemeAccent,
 } from 'd3';
 
-import { Endpoints, Data, Margins, GroupTag } from 'src/types/types';
-import useFetch from 'src/hooks/useFetch';
-import { Group, GroupAxis } from 'src/components/BarChart/BarChartStyle';
+import { Endpoints, Data, Margins, GroupTag } from 'types/types';
+import useFetch from 'hooks/useFetch';
+import { Group, GroupAxis } from 'components/BarChart/BarChartStyle';
 
 interface BarChartProps {
   endpoints: Endpoints;
@@ -20,7 +20,7 @@ interface BarChartProps {
 
 const WIDTH: number = 600;
 const HEIGHT: number = 400;
-const MARGINS: Margins = { top: 15, bottom: 15, left: 90, right: 25 };
+const MARGINS: Margins = { top: 15, bottom: 15, left: 200, right: 25 };
 const INNER_WIDTH: number = WIDTH - MARGINS.right - MARGINS.left;
 const INNER_HEIGHT: number = HEIGHT - MARGINS.top - MARGINS.bottom;
 
@@ -103,7 +103,7 @@ function BarChart({ endpoints, title }: BarChartProps) {
 
   return (
     <div>
-      <h1>{title}</h1>
+      <h2>{title}</h2>
       <svg width={WIDTH} height={HEIGHT}>
         <Group left={MARGINS.left}>
           <g ref={rectRef} />

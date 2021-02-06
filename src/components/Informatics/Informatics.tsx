@@ -1,10 +1,28 @@
-import useFetch from 'src/hooks/useFetch';
-import { Endpoints, Data } from 'src/types/types';
+import styled from 'styled-components';
+
+import useFetch from 'hooks/useFetch';
+import { Endpoints, Data } from 'types/types';
 
 interface InformaticsProps {
   endpoints: Endpoints;
   title: string;
 }
+
+const List = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`;
+
+const Item = styled.li`
+  margin: 4rem 0;
+
+  span {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-left: 1rem;
+  }
+`;
 
 function Informatics({ endpoints, title }: InformaticsProps) {
   const [data, loading, error] = useFetch(endpoints);
@@ -19,12 +37,14 @@ function Informatics({ endpoints, title }: InformaticsProps) {
 
   return (
     <div>
-      <h1>{title}</h1>
-      {data.map((d: Data) => (
-        <p key={d.name}>
-          {d.name} {d.data}
-        </p>
-      ))}
+      <h2>{title}</h2>
+      <List>
+        {data.map((d: Data) => (
+          <Item key={d.name}>
+            {d.name} <span>{d.data}</span>
+          </Item>
+        ))}
+      </List>
     </div>
   );
 }
