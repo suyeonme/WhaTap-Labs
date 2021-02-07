@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 
 import api from 'api/api';
-import { Data, GroupData } from 'types/types';
+import { GroupData } from 'types/types';
 
 type DataStatus = [GroupData, boolean, string];
 
@@ -12,19 +12,14 @@ const useFetch = (endpoints: string[]): DataStatus => {
 
   const fetchData = useCallback(
     async (endpoints: string[]): Promise<any> => {
-      const temp: GroupData = [];
-
       try {
+        const res: GroupData = await api.getDataSeries(endpoints);
+        await setData(res);
         await setLoading(false);
-        for (let i of endpoints) {
-          const res: Data = await api.spot(i);
-          await temp.push(res);
-        }
-        await setData(temp);
-        setTimeout(() => fetchData(endpoints), 10000);
+        setTimeout(() => fetchData(endpoints), 5000);
       } catch (err) {
         await setError(error);
-        setTimeout(() => fetchData(endpoints), 10000);
+        setTimeout(() => fetchData(endpoints), 5000);
       }
     },
     [error]

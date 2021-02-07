@@ -1,3 +1,5 @@
+import { Endpoints, GroupData, Data } from 'types/types';
+
 interface Header {
   [key: string]: string | number;
 }
@@ -81,16 +83,17 @@ const getOpenApi = (type: string) => (
 const spot = getOpenApi('');
 const series = getOpenApi('json');
 
-// const delay = (ms = 1000) => new Promise(r => setTimeout(r, ms));
+const delay: () => Promise<any> = (ms: number = 1000) =>
+  new Promise(r => setTimeout(r, ms));
 
-// const getDataSeries = async items => {
-//   let results = [];
-//   for (let index = 0; index < items.length; index++) {
-//     await delay();
-//     const res = await spot(items[index]);
-//     results.push({ name: res.name, data: res.data });
-//   }
-//   return results;
-// };
+const getDataSeries = async (items: Endpoints): Promise<any> => {
+  let results: GroupData = [];
+  for (let index = 0; index < items.length; index++) {
+    await delay();
+    const res: Data = await spot(items[index]);
+    results.push({ name: res.name, data: res.data });
+  }
+  return results;
+};
 
-export default { spot, series };
+export default { spot, series, getDataSeries };

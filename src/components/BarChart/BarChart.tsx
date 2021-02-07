@@ -11,18 +11,20 @@ import {
 
 import { Endpoints, Data, Margins, GroupTag } from 'types/types';
 import useFetch from 'hooks/useFetch';
-import { Group, GroupAxis } from 'components/BarChart/BarChartStyle';
+import { OuterGroup, GroupAxis } from 'components/BarChart/BarChartStyle';
+import { Placeholder } from 'styles/styles';
+import { WIDTH, HEIGHT } from 'utilities/utilities';
+import TitleWithInfo from 'components/UI/TitleWithInfo';
 
 interface BarChartProps {
   endpoints: Endpoints;
   title: string;
 }
 
-const WIDTH: number = 600;
-const HEIGHT: number = 400;
 const MARGINS: Margins = { top: 15, bottom: 15, left: 200, right: 25 };
 const INNER_WIDTH: number = WIDTH - MARGINS.right - MARGINS.left;
 const INNER_HEIGHT: number = HEIGHT - MARGINS.top - MARGINS.bottom;
+const MODAL_CONTENT: string = `액티브 트랜잭션들을 각 상태별로 갯수를 보여줍니다.`;
 
 function BarChart({ endpoints, title }: BarChartProps) {
   const [data, loading, error] = useFetch(endpoints);
@@ -36,9 +38,9 @@ function BarChart({ endpoints, title }: BarChartProps) {
     .range([0, INNER_WIDTH]);
 
   const yScale = scaleBand()
-    .domain(data!.map((d: Data) => d!.name))
+    .domain(data.map((d: Data) => d.name))
     .range([0, INNER_HEIGHT])
-    .padding(0.2);
+    .padding(0.3);
 
   const colorScale = scaleOrdinal(schemeAccent);
 
@@ -77,8 +79,9 @@ function BarChart({ endpoints, title }: BarChartProps) {
           (d: Data) => (yScale(d.name) as number) + yScale.bandwidth() / 1.5
         )
         .text((d: Data) => d.data)
-        .attr('x', (d: Data) => xScale(d.data) + 5)
-        .transition();
+        .transition()
+        .duration(750)
+        .attr('x', (d: Data) => xScale(d.data) + 5);
     },
     [data, xScale, yScale]
   );
@@ -94,22 +97,22 @@ function BarChart({ endpoints, title }: BarChartProps) {
   }, [handleDrawRect, handleDrawAxis, handleDrawText]);
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <Placeholder>Error: {error}</Placeholder>;
   }
 
   if (loading) {
-    return <p>loading...</p>;
+    return <Placeholder>loading...</Placeholder>;
   }
 
   return (
     <div>
-      <h2>{title}</h2>
+      <TitleWithInfo title={title} modalContent={MODAL_CONTENT} />
       <svg width={WIDTH} height={HEIGHT}>
-        <Group left={MARGINS.left}>
+        <OuterGroup left={MARGINS.left}>
           <g ref={rectRef} />
           <g ref={textRef} />
           <GroupAxis ref={leftAxisRef} />
-        </Group>
+        </OuterGroup>
       </svg>
     </div>
   );

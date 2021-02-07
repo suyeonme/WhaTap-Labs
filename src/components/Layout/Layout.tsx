@@ -29,7 +29,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    font-weight: 400;
+    font-weight: 300;
     background-color: #182E36;
     color: white;
   }
@@ -38,9 +38,13 @@ const GlobalStyle = createGlobalStyle`
     text-transform: uppercase;
   }
 
+  h2, text {
+    font-weight: 300;
+  }
+
   h2 {
-    font-size: 2.5rem;
-    font-weight: 400;
+    font-size: 3rem;
+    letter-spacing: 1px;
   }
 
   text, li {
@@ -76,10 +80,11 @@ const Content = styled.div`
 `;
 
 const Footer = styled.footer`
+  font-size: 1.4rem;
+  font-weight: 300;
   text-align: center;
-  font-size: 1.2rem;
-  margin-top: auto;
   color: #385a64;
+  margin-top: auto;
 `;
 
 function Layout({ children }: LayoutProps) {

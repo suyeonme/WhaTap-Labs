@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-import useFetch from 'hooks/useFetch';
 import { Endpoints, Data } from 'types/types';
+import useFetch from 'hooks/useFetch';
+import { Placeholder } from 'styles/styles';
 
 interface InformaticsProps {
   endpoints: Endpoints;
@@ -15,12 +16,13 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-  margin: 4rem 0;
+  margin: 2rem 0;
 
   span {
-    font-weight: 700;
-    font-size: 2rem;
+    font-size: 3.5rem;
+    font-weight: 100;
     margin-left: 1rem;
+    opacity: 0.7;
   }
 `;
 
@@ -28,11 +30,11 @@ function Informatics({ endpoints, title }: InformaticsProps) {
   const [data, loading, error] = useFetch(endpoints);
 
   if (error) {
-    return <p>Error: {error}</p>;
+    return <Placeholder>Error: {error}</Placeholder>;
   }
 
   if (loading) {
-    return <p>loading...</p>;
+    return <Placeholder>loading...</Placeholder>;
   }
 
   return (

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Group = styled.g<{ left: number }>`
+export const OuterGroup = styled.g<{ left: number }>`
   transform: ${({ left }) => `translateX(${left}px)`};
 `;
 
