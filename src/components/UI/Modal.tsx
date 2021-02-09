@@ -14,28 +14,29 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h3`
+  font-size: 1.7rem;
+  font-weight: 300;
   text-align: center;
   text-transform: uppercase;
   color: grey;
   border-bottom: 1px solid #eeeeee;
-  padding: 1.5rem 0;
-  font-size: 1.7rem;
-  font-weight: 300;
+  padding: 1rem 0;
   margin: 0;
 `;
 
 const Content = styled.div`
-  padding: 2rem;
   font-size: 1.2rem;
+  line-height: 1.5;
+  padding: 1.5rem;
 `;
 
 interface ModalnProps {
   title: string;
-  onClick: () => void;
   children?: React.ReactNode;
+  onClick: () => void;
 }
 
-function Modal({ title, onClick, children }: ModalnProps) {
+function Modal({ title, children, onClick }: ModalnProps) {
   const ref = useClickOutside(onClick);
 
   return (

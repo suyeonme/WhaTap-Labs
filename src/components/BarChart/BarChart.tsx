@@ -11,20 +11,20 @@ import {
 
 import { Endpoints, Data, Margins, GroupTag } from 'types/types';
 import useFetch from 'hooks/useFetch';
+import TitleWithInfo from 'components/UI/TitleWithInfo';
 import { OuterGroup, GroupAxis } from 'components/BarChart/BarChartStyle';
 import { Placeholder } from 'styles/styles';
 import { WIDTH, HEIGHT } from 'utilities/utilities';
-import TitleWithInfo from 'components/UI/TitleWithInfo';
 
 interface BarChartProps {
   endpoints: Endpoints;
   title: string;
 }
 
-const MARGINS: Margins = { top: 15, bottom: 15, left: 200, right: 25 };
+const MARGINS: Margins = { top: 15, bottom: 15, left: 130, right: 25 };
 const INNER_WIDTH: number = WIDTH - MARGINS.right - MARGINS.left;
 const INNER_HEIGHT: number = HEIGHT - MARGINS.top - MARGINS.bottom;
-const MODAL_CONTENT: string = `액티브 트랜잭션들을 각 상태별로 갯수를 보여줍니다.`;
+const MODAL_CONTENT: string = `액티브 트랜잭션들을 각 상태별로 갯수를 보여줍니다. DBC나 SOCKET의 갯수가 1이상에서 지속되면 문제가 있는지 의심해야합니다.`;
 
 function BarChart({ endpoints, title }: BarChartProps) {
   const [data, loading, error] = useFetch(endpoints);
