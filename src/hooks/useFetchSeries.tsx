@@ -8,9 +8,9 @@ const HOUR = 1000 * 60 * 60;
 let stime = Date.now() - HOUR;
 let etime = Date.now();
 
+// Implement Typescript
 // 5초 단위로 갱신
 // Initial: 30min -> 5sec
-// fetchData (setTimeout)
 
 const useFetchSeries = () => {
   const [data, setData] = useState([]);
@@ -19,17 +19,16 @@ const useFetchSeries = () => {
 
   const fetchData = useCallback(async (): Promise<any> => {
     try {
-      const res = await api.series('exception/{stime}/{etime}', {
+      const res = await api.series('visitor_5m/{stime}/{etime}', {
         stime,
         etime,
       });
-      await setData(res.data.records);
+      await setData(res.data.data);
       await setLoading(false);
-
-      // setTimeout(() => fetchData(), 20000);
+      setTimeout(() => fetchData(), 5000);
     } catch (err) {
       await setError(error);
-      // setTimeout(() => fetchData(), 20000);
+      setTimeout(() => fetchData(), 5000);
     }
   }, [error]);
 

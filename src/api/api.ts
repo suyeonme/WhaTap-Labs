@@ -43,7 +43,7 @@ const OPEN_API: OpenApi = {
     act_socket: 'Socket',
   },
   json: {
-    'exception/{stime}/{etime}': 'Exception 발생 ',
+    'visitor_5m/{stime}/{etime}': '동시접속 사용자',
   },
 };
 

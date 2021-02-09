@@ -26,7 +26,7 @@ function Dashboard() {
       <Wrapper>
         <Informatics endpoints={INFORMATICS} title="Informatics" />
         <BarChart endpoints={ACTIVE_STATUS} title="Active Status" />
-        <LineChart title="Line Chart" />
+        <LineChart title="Active Visitor" />
       </Wrapper>
     </Layout>
   );
