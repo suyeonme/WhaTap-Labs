@@ -1,35 +1,30 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useCallback, useContext } from 'react';
 
-import api from 'api/api';
+import { setError, updateData } from 'reducer/actions';
+import { DataContext } from 'reducer/context';
 import { GroupData } from 'types/types';
+import api from 'api/api';
 
-type DataStatus = [GroupData, boolean, string];
-
-const useFetch = (endpoints: string[]): DataStatus => {
-  const [data, setData] = useState<GroupData>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+const useFetch = (endpoints: string[], dataType: string): void => {
+  const { dispatch } = useContext(DataContext);
 
   const fetchData = useCallback(
-    async (endpoints: string[]): Promise<any> => {
+    async (endpoints: string[], dataType): Promise<any> => {
       try {
         const res: GroupData = await api.getDataSeries(endpoints);
-        await setData(res);
-        await setLoading(false);
-        setTimeout(() => fetchData(endpoints), 5000);
-      } catch (err) {
-        await setError(error);
-        setTimeout(() => fetchData(endpoints), 5000);
+        await dispatch(updateData(res, dataType));
+        setTimeout(() => fetchData(endpoints, dataType), 5000);
+      } catch (error) {
+        await dispatch(setError(error, dataType));
+        setTimeout(() => fetchData(endpoints, dataType), 5000);
       }
     },
-    [error]
+    [dispatch]
   );
 
   useEffect(() => {
-    fetchData(endpoints);
-  }, [fetchData, endpoints]);
-
-  return [data, loading, error];
+    fetchData(endpoints, dataType);
+  }, [fetchData, endpoints, dataType]);
 };
 
 export default useFetch;

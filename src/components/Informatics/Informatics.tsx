@@ -27,26 +27,26 @@ const Item = styled.li`
 `;
 
 function Informatics({ endpoints, title }: InformaticsProps) {
-  const [data, loading, error] = useFetch(endpoints);
+  // const [data, loading, error] = useFetch(endpoints);
 
-  if (error) {
-    return <Placeholder>Error: {error}</Placeholder>;
-  }
+  // if (error) {
+  //   return <Placeholder>Error: {error}</Placeholder>;
+  // }
 
-  if (loading) {
-    return <Placeholder>loading...</Placeholder>;
-  }
+  // if (loading) {
+  //   return <Placeholder>loading...</Placeholder>;
+  // }
 
   return (
     <div>
       <h2>{title}</h2>
-      <List>
+      {/* <List>
         {data.map((d: Data) => (
           <Item key={d.name}>
             {d.name} <span>{d.data}</span>
           </Item>
         ))}
-      </List>
+      </List> */}
     </div>
   );
 }
