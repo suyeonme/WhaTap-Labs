@@ -1,8 +1,8 @@
-import { ACTIONTYPES } from 'reducer/reducer';
+import { ACTION_TYPES } from 'reducer/reducer';
 
 export const updateData = (data, dataType) => {
   return {
-    type: ACTIONTYPES.UPDATE_DATA,
+    type: ACTION_TYPES.UPDATE_DATA,
     dataType: dataType,
     data: data,
   };
@@ -10,7 +10,7 @@ export const updateData = (data, dataType) => {
 
 export const setLoading = (state, dataType) => {
   return {
-    type: ACTIONTYPES.SET_LOADING,
+    type: ACTION_TYPES.SET_LOADING,
     dataType: dataType,
     state: state,
   };
@@ -18,7 +18,7 @@ export const setLoading = (state, dataType) => {
 
 export const setError = (state, dataType) => {
   return {
-    type: ACTIONTYPES.SET_ERROR,
+    type: ACTION_TYPES.SET_ERROR,
     dataType: dataType,
     state: state,
   };

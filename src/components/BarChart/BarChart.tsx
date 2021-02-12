@@ -9,7 +9,7 @@ import {
   schemeAccent,
 } from 'd3';
 
-import { Endpoints, Data, Margins, GroupTag } from 'types/types';
+import { SpotData, Margins, GroupTag, DataState } from 'types/types';
 import TitleWithInfo from 'components/UI/TitleWithInfo';
 import { OuterGroup, GroupAxis } from 'components/BarChart/BarChartStyle';
 import { Placeholder } from 'styles/styles';
@@ -17,7 +17,7 @@ import { WIDTH, HEIGHT } from 'utilities/utilities';
 
 interface BarChartProps {
   title: string;
-  dataObj: any;
+  dataObj: DataState;
 }
 
 const MARGINS: Margins = { top: 15, bottom: 15, left: 130, right: 25 };
@@ -27,18 +27,17 @@ const MODAL_CONTENT: string = `액티브 트랜잭션들을 각 상태별로 갯
 
 function BarChart({ dataObj, title }: BarChartProps) {
   const { loading, error, data } = dataObj;
-  console.log(dataObj);
 
   const rectRef = useRef<GroupTag>(null);
   const leftAxisRef = useRef<GroupTag>(null);
   const textRef = useRef<GroupTag>(null);
 
   const xScale = scaleLinear()
-    .domain([0, max(data, (d: Data) => d.data) as number])
+    .domain([0, max(data, (d: SpotData) => d.data) as number])
     .range([0, INNER_WIDTH]);
 
   const yScale = scaleBand()
-    .domain(data.map((d: Data) => d.name))
+    .domain(data.map((d: SpotData) => d.name))
     .range([0, INNER_HEIGHT])
     .padding(0.3);
 
@@ -51,11 +50,11 @@ function BarChart({ dataObj, title }: BarChartProps) {
         .data(data)
         .join('rect')
         .attr('height', yScale.bandwidth())
-        .attr('y', (d: Data) => yScale(d.name))
-        .style('fill', (d: Data) => colorScale(d.name))
+        .attr('y', (d: SpotData) => yScale(d.name))
+        .style('fill', (d: SpotData) => colorScale(d.name))
         .transition()
         .duration(750)
-        .attr('width', (d: Data) => xScale(d.data));
+        .attr('width', (d: SpotData) => xScale(d.data));
     },
     [data, xScale, yScale, colorScale]
   );
@@ -76,12 +75,12 @@ function BarChart({ dataObj, title }: BarChartProps) {
         .join('text')
         .attr(
           'y',
-          (d: Data) => (yScale(d.name) as number) + yScale.bandwidth() / 1.5
+          (d: SpotData) => (yScale(d.name) as number) + yScale.bandwidth() / 1.5
         )
-        .text((d: Data) => d.data)
+        .text((d: SpotData) => d.data)
         .transition()
         .duration(750)
-        .attr('x', (d: Data) => xScale(d.data) + 5);
+        .attr('x', (d: SpotData) => xScale(d.data) + 5);
     },
     [data, xScale, yScale]
   );

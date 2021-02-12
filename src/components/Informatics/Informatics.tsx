@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
-import { Endpoints, Data } from 'types/types';
-import useFetch from 'hooks/useFetch';
+import { SpotData, DataState } from 'types/types';
 import { Placeholder } from 'styles/styles';
 
 interface InformaticsProps {
-  endpoints: Endpoints;
   title: string;
+  dataObj: DataState;
 }
 
 const List = styled.ul`
@@ -26,27 +25,27 @@ const Item = styled.li`
   }
 `;
 
-function Informatics({ endpoints, title }: InformaticsProps) {
-  // const [data, loading, error] = useFetch(endpoints);
+function Informatics({ title, dataObj }: InformaticsProps) {
+  const { loading, error, data } = dataObj;
 
-  // if (error) {
-  //   return <Placeholder>Error: {error}</Placeholder>;
-  // }
+  if (error) {
+    return <Placeholder>Error: {error}</Placeholder>;
+  }
 
-  // if (loading) {
-  //   return <Placeholder>loading...</Placeholder>;
-  // }
+  if (loading) {
+    return <Placeholder>loading...</Placeholder>;
+  }
 
   return (
     <div>
       <h2>{title}</h2>
-      {/* <List>
-        {data.map((d: Data) => (
+      <List>
+        {data.map((d: SpotData) => (
           <Item key={d.name}>
             {d.name} <span>{d.data}</span>
           </Item>
         ))}
-      </List> */}
+      </List>
     </div>
   );
 }

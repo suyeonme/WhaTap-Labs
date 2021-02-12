@@ -1,6 +1,6 @@
 import { updateObject } from 'utilities/utilities';
 
-export const ACTIONTYPES = {
+export const ACTION_TYPES = {
   UPDATE_DATA: 'UPDATE_DATA',
   SET_ERROR: 'SET_ERROR',
 };
@@ -49,9 +49,9 @@ const setError = (state, action) => {
 // REDUCER
 export const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ACTIONTYPES.UPDATE_DATA:
+    case ACTION_TYPES.UPDATE_DATA:
       return updateData(state, action);
-    case ACTIONTYPES.SET_ERROR:
+    case ACTION_TYPES.SET_ERROR:
       return setError(state, action);
     default:
       return state;

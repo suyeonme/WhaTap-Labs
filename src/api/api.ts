@@ -1,4 +1,4 @@
-import { Endpoints, GroupData, Data } from 'types/types';
+import { Endpoints, GroupData, SpotData } from 'types/types';
 
 interface Header {
   [key: string]: string | number;
@@ -90,7 +90,7 @@ const getDataSeries = async (items: Endpoints): Promise<any> => {
   let results: GroupData = [];
   for (let index = 0; index < items.length; index++) {
     await delay();
-    const res: Data = await spot(items[index]);
+    const res: SpotData = await spot(items[index]);
     results.push({ name: res.name, data: res.data });
   }
   return results;
