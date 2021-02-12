@@ -1,9 +1,22 @@
 import React, { createContext, useMemo, useReducer } from 'react';
 import { INITIAL_STATE, reducer } from 'reducer/reducer';
+import { ActionType } from 'reducer/actionTypes';
 
-export const DataContext = createContext();
+type ContextType = {
+  state: typeof INITIAL_STATE;
+  dispatch: (action: ActionType) => void;
+};
 
-function DataProvider({ children }) {
+interface DataProviderProps {
+  children: React.ReactNode;
+}
+
+export const DataContext = createContext<ContextType>({
+  state: INITIAL_STATE,
+  dispatch: () => {},
+});
+
+function DataProvider({ children }: DataProviderProps) {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
   const contextValue = useMemo(() => {

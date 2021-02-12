@@ -27,10 +27,10 @@ const useFetchSeries = (
         etime,
       });
       await dispatch(updateData(res.data.data, dataType));
-      setTimeout(() => fetchData(), 10000);
+      setTimeout(() => fetchData(), 30000);
     } catch (error) {
       await dispatch(setError(error, dataType));
-      setTimeout(() => fetchData(), 10000);
+      setTimeout(() => fetchData(), 30000);
     }
   }, [endpoint, stime, etime, dispatch, dataType]);
 

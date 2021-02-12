@@ -1,45 +1,21 @@
-import { DataActionType } from 'reducer/reducer';
+import { DataActionTypes } from 'reducer/reducer';
+// any[]
 
 export type ActionType = {
-  type: DataActionType;
-  payload?: any;
-  // id?: string;
+  type: DataActionTypes;
+  dataType: string;
+  data?: any[];
+  state?: boolean;
 };
 
 export interface updateDataType {
-  type: DataActionType.UPDATE_DATA;
-  payload: any;
-}
-
-export interface setLoadingType {
-  type: DataActionType.SET_LOADING;
-  payload: any;
+  type: DataActionTypes.UPDATE_DATA;
+  dataType: string;
+  data: any[];
 }
 
 export interface setErrorType {
-  type: DataActionType.SET_ERROR;
-  payload: any;
+  type: DataActionTypes.SET_ERROR;
+  dataType: string;
+  state: boolean;
 }
-
-// import { DataActionType } from 'reducer/reducer';
-
-// export type ActionType = {
-//   type: DataActionType;
-//   payload?: any;
-//   // id?: string;
-// };
-
-// export interface updateDataType {
-//   type: DataActionType.UPDATE_DATA;
-//   payload: any;
-// }
-
-// export interface setLoadingType {
-//   type: DataActionType.SET_LOADING;
-//   payload: any;
-// }
-
-// export interface setErrorType {
-//   type: DataActionType.SET_ERROR;
-//   payload: any;
-// }

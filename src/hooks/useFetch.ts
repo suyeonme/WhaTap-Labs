@@ -13,10 +13,10 @@ const useFetch = (endpoints: string[], dataType: string): void => {
       try {
         const res: GroupData = await api.getDataSeries(endpoints);
         await dispatch(updateData(res, dataType));
-        setTimeout(() => fetchData(endpoints, dataType), 10000);
+        setTimeout(() => fetchData(endpoints, dataType), 30000);
       } catch (error) {
         await dispatch(setError(error, dataType));
-        setTimeout(() => fetchData(endpoints, dataType), 10000);
+        setTimeout(() => fetchData(endpoints, dataType), 30000);
       }
     },
     [dispatch]

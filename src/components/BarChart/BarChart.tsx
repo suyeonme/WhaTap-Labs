@@ -33,7 +33,7 @@ function BarChart({ dataObj, title }: BarChartProps) {
   const textRef = useRef<GroupTag>(null);
 
   const xScale = scaleLinear()
-    .domain([0, max(data, (d: SpotData) => d.data) as number])
+    .domain([0, max(data, (d: SpotData) => +d.data) as number])
     .range([0, INNER_WIDTH]);
 
   const yScale = scaleBand()
