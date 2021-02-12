@@ -96,4 +96,5 @@ const getDataSeries = async (items: Endpoints): Promise<any> => {
   return results;
 };
 
+// eslint-disable-next-line
 export default { spot, series, getDataSeries };

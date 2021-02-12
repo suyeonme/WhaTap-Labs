@@ -1,16 +1,19 @@
 import { useEffect, useState, useCallback } from 'react';
-
 import api from 'api/api';
-// import { GroupData } from 'types/types';
-// type DataStatus = [GroupData, boolean, string];
 
 const HOUR = 1000 * 60 * 60;
 let stime = Date.now() - HOUR;
 let etime = Date.now();
 
 // Implement Typescript
-// 5초 단위로 갱신
-// Initial: 30min -> 5sec
+
+/*
+  let duration = 5000; //how quickly to move (will look jerky if less that data input rate)
+  let limit = 60; // how many datapoints, total points = (duration * limit)
+
+  첫 렌더링: 1시간전 ~ 현재
+  이후: etime을 stime으로 설정후, stime ~ 현재 (5초 주기로 갱신)
+*/
 
 const useFetchSeries = () => {
   const [data, setData] = useState([]);
@@ -20,6 +23,7 @@ const useFetchSeries = () => {
   const fetchData = useCallback(async (): Promise<any> => {
     try {
       const res = await api.series('visitor_5m/{stime}/{etime}', {
+        // (*)
         stime,
         etime,
       });
@@ -36,7 +40,7 @@ const useFetchSeries = () => {
     fetchData();
   }, [fetchData]);
 
-  return [data, loading, error];
+  return [data, loading, error]; // (*)
 };
 
 export default useFetchSeries;
