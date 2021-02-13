@@ -1,7 +1,5 @@
 import styled from 'styled-components';
-
 import { SpotData, DataState } from 'types/types';
-import { Placeholder } from 'styles/styles';
 
 interface InformaticsProps {
   title: string;
@@ -26,15 +24,7 @@ const Item = styled.li`
 `;
 
 function Informatics({ title, dataObj }: InformaticsProps) {
-  const { loading, error, data } = dataObj;
-
-  if (error) {
-    return <Placeholder>Error: {error}</Placeholder>;
-  }
-
-  if (loading) {
-    return <Placeholder>loading...</Placeholder>;
-  }
+  const { data } = dataObj;
 
   return (
     <div>

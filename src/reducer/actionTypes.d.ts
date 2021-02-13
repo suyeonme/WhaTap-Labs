@@ -1,10 +1,9 @@
 import { DataActionTypes } from 'reducer/reducer';
-// any[]
 
 export type ActionType = {
   type: DataActionTypes;
   dataType: string;
-  data?: any[];
+  data?: any[]; // (*)
   state?: boolean;
 };
 

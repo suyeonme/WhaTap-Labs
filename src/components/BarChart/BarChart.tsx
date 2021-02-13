@@ -12,7 +12,6 @@ import {
 import { SpotData, Margins, GroupTag, DataState } from 'types/types';
 import TitleWithInfo from 'components/UI/TitleWithInfo';
 import { OuterGroup, GroupAxis } from 'components/BarChart/BarChartStyle';
-import { Placeholder } from 'styles/styles';
 import { WIDTH, HEIGHT } from 'utilities/utilities';
 
 interface BarChartProps {
@@ -26,14 +25,14 @@ const INNER_HEIGHT: number = HEIGHT - MARGINS.top - MARGINS.bottom;
 const MODAL_CONTENT: string = `액티브 트랜잭션들을 각 상태별로 갯수를 보여줍니다. DBC나 SOCKET의 갯수가 1이상에서 지속되면 문제가 있는지 의심해야합니다.`;
 
 function BarChart({ dataObj, title }: BarChartProps) {
-  const { loading, error, data } = dataObj;
+  const { data } = dataObj;
 
   const rectRef = useRef<GroupTag>(null);
   const leftAxisRef = useRef<GroupTag>(null);
   const textRef = useRef<GroupTag>(null);
 
   const xScale = scaleLinear()
-    .domain([0, max(data, (d: SpotData) => +d.data) as number])
+    .domain([0, max(data, (d: SpotData) => d.data) as number])
     .range([0, INNER_WIDTH]);
 
   const yScale = scaleBand()
@@ -94,14 +93,6 @@ function BarChart({ dataObj, title }: BarChartProps) {
     handleDrawAxis(axisGroup);
     handleDrawText(textGroup);
   }, [handleDrawRect, handleDrawAxis, handleDrawText]);
-
-  if (error) {
-    return <Placeholder>Error: {error}</Placeholder>;
-  }
-
-  if (loading) {
-    return <Placeholder>loading...</Placeholder>;
-  }
 
   return (
     <div>

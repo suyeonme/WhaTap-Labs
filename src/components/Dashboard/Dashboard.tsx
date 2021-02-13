@@ -5,10 +5,15 @@ import useFetch from 'hooks/useFetch';
 import useFetchSeries from 'hooks/useFetchSeries';
 import { DataContext } from 'reducer/context';
 import { Endpoints } from 'types/types';
-import Layout from 'components/Layout/Layout';
 import Informatics from 'components/Informatics/Informatics';
 import BarChart from 'components/BarChart/BarChart';
 import LineChart from 'components/LineChart/LineChart';
+import WithLoading from 'components/HOC/WithLoading';
+import Layout from 'components/Layout/Layout';
+
+const InformaticsWithLoading = WithLoading(Informatics);
+const BarChartWithLoading = WithLoading(BarChart);
+const LineChartWithLoading = WithLoading(LineChart);
 
 const Wrapper = styled.div`
   display: flex;
@@ -40,9 +45,9 @@ function Dashboard() {
   return (
     <Layout>
       <Wrapper>
-        <Informatics dataObj={informatics} title="Informatics" />
-        <BarChart dataObj={activeStatus} title="Active Status" />
-        <LineChart dataObj={visitorPer5min} title="Active Visitor" />
+        <InformaticsWithLoading dataObj={informatics} title="Informatics" />
+        <BarChartWithLoading dataObj={activeStatus} title="Active Status" />
+        <LineChartWithLoading dataObj={visitorPer5min} title="Active Visitor" />
       </Wrapper>
     </Layout>
   );

@@ -13,7 +13,6 @@ import {
 } from 'd3';
 
 import { WIDTH, HEIGHT } from 'utilities/utilities';
-import { Placeholder } from 'styles/styles';
 import {
   OuterGroup,
   LinePath,
@@ -29,7 +28,7 @@ const INNER_HEIGHT = HEIGHT - MARGINS.top - MARGINS.bottom;
 const MODAL_CONTENT = `실시간 브라우저 사용자 수를 카운팅하여 보여줍니다. 매5초마다 최근 5분이내에 트랜잭션을 일으킨 사용자를 카운팅 하여 보여줍니다.`;
 
 function LineChart({ title, dataObj }) {
-  const { loading, error, data } = dataObj;
+  const { data } = dataObj;
 
   const lineRef = useRef(null);
   const axesRef = useRef(null);
@@ -88,14 +87,6 @@ function LineChart({ title, dataObj }) {
     handleDrawLine(lineGroup);
     handleDrawAxes(AxesGroup);
   }, [handleDrawLine, handleDrawAxes]);
-
-  if (error) {
-    return <Placeholder>Error: {error}</Placeholder>;
-  }
-
-  if (loading) {
-    return <Placeholder>loading...</Placeholder>;
-  }
 
   return (
     <div>
