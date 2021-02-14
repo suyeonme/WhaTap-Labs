@@ -44,6 +44,7 @@ const ACTIVE_STATUS: Endpoints = [
 const HOUR: number = 1000 * 60 * 60;
 let stime: number = Date.now() - HOUR;
 let etime: number = Date.now();
+// timestamp_last: data[data.length - 1];
 
 function Dashboard() {
   useFetch(ACTIVE_STATUS, 'activeStatus');

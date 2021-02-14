@@ -5,6 +5,14 @@ export interface SpotData {
   name: string;
   data: number;
 }
+
+export interface SeriesData {
+  timestamp: number;
+  value: number;
+}
+
+export type OriginalSeriesData = number[];
+
 export interface DataState {
   data: any[];
   loading: boolean;

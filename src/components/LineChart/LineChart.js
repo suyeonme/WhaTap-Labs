@@ -36,8 +36,8 @@ function LineChart({ title, dataObj }) {
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
 
-  const xValue = d => d[0];
-  const yValue = d => d[1];
+  const xValue = d => d.timestamp;
+  const yValue = d => d.value;
 
   const xScale = scaleTime()
     .domain(extent(data, xValue))
@@ -71,7 +71,15 @@ function LineChart({ title, dataObj }) {
     const xAxis = axisBottom(xScale).tickSizeOuter(0);
     const yAxis = axisLeft(yScale).tickSizeOuter(0);
     yGroup.call(yAxis);
-    xGroup.transition().duration(750).ease(easeLinear).call(xAxis);
+    xGroup
+      .transition()
+      .duration(750)
+      .ease(easeLinear)
+      .call(xAxis)
+      .selectAll('text')
+      .style('text-anchor', 'end')
+      .attr('dx', '0')
+      .attr('dy', '0.9em');
 
     // xGroup
     //   .call(xAxis)
