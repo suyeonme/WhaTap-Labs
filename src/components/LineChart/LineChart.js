@@ -21,6 +21,7 @@ import {
 import TitleWithInfo from 'components/UI/TitleWithInfo';
 
 // Implement Typescript
+import { ChartWrapper, Chart } from 'styles/styles';
 
 const MARGINS = { top: 5, bottom: 20, left: 25, right: 25 };
 const INNER_WIDTH = WIDTH - MARGINS.right - MARGINS.left;
@@ -89,9 +90,9 @@ function LineChart({ title, dataObj }) {
   }, [handleDrawLine, handleDrawAxes]);
 
   return (
-    <div>
+    <ChartWrapper>
       <TitleWithInfo title={title} modalContent={MODAL_CONTENT} />
-      <div>
+      <Chart>
         <svg width={WIDTH} height={HEIGHT}>
           <OuterGroup left={MARGINS.left} top={MARGINS.top}>
             <g ref={axesRef}>
@@ -105,8 +106,8 @@ function LineChart({ title, dataObj }) {
             <LinePath ref={lineRef} />
           </OuterGroup>
         </svg>
-      </div>
-    </div>
+      </Chart>
+    </ChartWrapper>
   );
 }
 

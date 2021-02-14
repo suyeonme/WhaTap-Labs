@@ -3,10 +3,9 @@ import styled from 'styled-components';
 
 import icon from 'assets/info.svg';
 import Modal from 'components/UI/Modal';
+import { ChartTitle } from 'styles/styles';
 
 const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
   position: relative;
 `;
 
@@ -27,19 +26,20 @@ function Information({ title, modalContent }: InformationProps) {
   const handleHide = useCallback((): void => setIsClicked(false), []);
 
   return (
-    <>
-      <Wrapper>
-        <h2>{title}</h2>
+    <Wrapper>
+      <ChartTitle>
+        {title}
         <Icon onClick={handleShow}>
           <img src={icon} alt="부가 정보" />
         </Icon>
-        {isClicked && (
-          <Modal title={title} onClick={handleHide}>
-            {modalContent}
-          </Modal>
-        )}
-      </Wrapper>
-    </>
+      </ChartTitle>
+
+      {isClicked && (
+        <Modal title={title} onClick={handleHide}>
+          {modalContent}
+        </Modal>
+      )}
+    </Wrapper>
   );
 }
 

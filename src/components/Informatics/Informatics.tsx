@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { SpotData, DataState } from 'types/types';
+import { ChartWrapper, ChartTitle } from 'styles/styles';
 
 interface InformaticsProps {
   title: string;
@@ -7,7 +8,6 @@ interface InformaticsProps {
 }
 
 const List = styled.ul`
-  list-style: none;
   margin: 0;
   padding: 0;
 `;
@@ -21,14 +21,18 @@ const Item = styled.li`
     margin-left: 1rem;
     opacity: 0.7;
   }
+
+  @media (max-width: 1024px) {
+    text-align: center;
+  }
 `;
 
 function Informatics({ title, dataObj }: InformaticsProps) {
   const { data } = dataObj;
 
   return (
-    <div>
-      <h2>{title}</h2>
+    <ChartWrapper>
+      <ChartTitle>{title}</ChartTitle>
       <List>
         {data.map((d: SpotData) => (
           <Item key={d.name}>
@@ -36,7 +40,7 @@ function Informatics({ title, dataObj }: InformaticsProps) {
           </Item>
         ))}
       </List>
-    </div>
+    </ChartWrapper>
   );
 }
 

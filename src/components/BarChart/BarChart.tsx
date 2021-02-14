@@ -14,6 +14,8 @@ import TitleWithInfo from 'components/UI/TitleWithInfo';
 import { OuterGroup, GroupAxis } from 'components/BarChart/BarChartStyle';
 import { WIDTH, HEIGHT } from 'utilities/utilities';
 
+import { ChartWrapper, Chart } from 'styles/styles';
+
 interface BarChartProps {
   title: string;
   dataObj: DataState;
@@ -95,16 +97,18 @@ function BarChart({ dataObj, title }: BarChartProps) {
   }, [handleDrawRect, handleDrawAxis, handleDrawText]);
 
   return (
-    <div>
+    <ChartWrapper>
       <TitleWithInfo title={title} modalContent={MODAL_CONTENT} />
-      <svg width={WIDTH} height={HEIGHT}>
-        <OuterGroup left={MARGINS.left}>
-          <g ref={rectRef} />
-          <g ref={textRef} />
-          <GroupAxis ref={leftAxisRef} />
-        </OuterGroup>
-      </svg>
-    </div>
+      <Chart>
+        <svg width={WIDTH} height={HEIGHT}>
+          <OuterGroup left={MARGINS.left}>
+            <g ref={rectRef} />
+            <g ref={textRef} />
+            <GroupAxis ref={leftAxisRef} />
+          </OuterGroup>
+        </svg>
+      </Chart>
+    </ChartWrapper>
   );
 }
 

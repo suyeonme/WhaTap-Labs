@@ -18,6 +18,17 @@ const LineChartWithLoading = WithLoading(LineChart);
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-around;
+  padding: 5rem;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    justify-content: normal;
+    align-items: center;
+  }
+
+  @media (max-width: 568px) {
+    padding: 3rem;
+  }
 `;
 
 const INFORMATICS: Endpoints = ['act_agent', 'inact_agent', 'host', 'cpucore'];

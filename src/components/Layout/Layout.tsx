@@ -5,6 +5,13 @@ interface LayoutProps {
 }
 
 const GlobalStyle = createGlobalStyle`
+  html,
+  body,
+  #root {
+    width: 100%;
+    height: 100%;
+  }
+
   html {
     ${'' /* 10px = 1rem */}
     font-size: 62.5%; 
@@ -19,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
       font-size: 50%; 
     }
 
-    @media (max-width: 320px) {
+    @media (max-width: 568px) {
       ${'' /* 7px = 1rem */}
       font-size: 43.75%; 
     }
@@ -47,6 +54,10 @@ const GlobalStyle = createGlobalStyle`
     letter-spacing: 1px;
   }
 
+  ul {
+    list-style: none;
+  }
+
   text, li {
     font-size: 1.7rem;
   }
@@ -57,7 +68,8 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Wrapper = styled.div`
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
 `;
@@ -72,11 +84,14 @@ const Header = styled.header`
 const Title = styled.p`
   margin: 0;
   padding: 8rem 0;
+
+  @media (max-width: 568px) {
+    padding: 5rem 0 2rem 0;
+  }
 `;
 
 const Content = styled.div`
   height: auto;
-  max-height: 100vh;
 `;
 
 const Footer = styled.footer`
