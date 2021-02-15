@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import useFetch from 'hooks/useFetch';
 import useFetchSeries from 'hooks/useFetchSeries';
 import { DataContext } from 'reducer/context';
-import { Endpoints } from 'types/types';
+import { ACTIVE_STATUS, INFORMATICS } from 'utilities/endpoints';
 import Informatics from 'components/Informatics/Informatics';
 import BarChart from 'components/BarChart/BarChart';
 import LineChart from 'components/LineChart/LineChart';
@@ -30,15 +30,6 @@ const Wrapper = styled.div`
     padding: 3rem;
   }
 `;
-
-const INFORMATICS: Endpoints = ['act_agent', 'inact_agent', 'host', 'cpucore'];
-const ACTIVE_STATUS: Endpoints = [
-  'act_method',
-  'act_sql',
-  'act_httpc',
-  'act_dbc',
-  'act_socket',
-];
 
 // HERE
 const HOUR: number = 1000 * 60 * 60;

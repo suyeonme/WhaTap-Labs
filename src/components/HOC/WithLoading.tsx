@@ -12,8 +12,12 @@ function WithLoading<P extends object>(
   return function WihLoadingComponent({ dataObj, ...props }: WithLoadingProps) {
     const { loading, error } = dataObj;
 
-    if (loading) return <Placeholder>Loading...</Placeholder>;
-    if (error) return <Placeholder>Error</Placeholder>;
+    if (loading) {
+      return <Placeholder>Loading...</Placeholder>;
+    }
+    if (error !== '') {
+      return <Placeholder>Request faild. Please try again.</Placeholder>;
+    }
     return <Component dataObj={dataObj} {...(props as P)} />;
   };
 }

@@ -9,10 +9,10 @@ export const updateData = (data: any[], dataType: string): updateDataType => {
   };
 };
 
-export const setError = (state: boolean, dataType: string): setErrorType => {
+export const setError = (message: string, dataType: string): setErrorType => {
   return {
     type: DataActionTypes.SET_ERROR,
     dataType: dataType,
-    state: state,
+    message: message,
   };
 };

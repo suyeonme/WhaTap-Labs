@@ -56,7 +56,7 @@ export const reducer = (
         ...state,
         [action.dataType]: {
           ...state[action.dataType],
-          error: action.state,
+          error: action.message,
         },
       };
     default:

@@ -5,14 +5,6 @@ import { DataContext } from 'reducer/context';
 import { SeriesData, OriginalSeriesData } from 'types/types';
 import api from 'api/api';
 
-/*
-  let duration = 5000; //how quickly to move (will look jerky if less that data input rate)
-  let limit = 60; // how many datapoints, total points = (duration * limit)
-
-  첫 렌더링: 1시간전 ~ 현재
-  이후: etime을 stime으로 설정후, stime ~ 현재 (5초 주기로 갱신)
-*/
-
 const useFetchSeries = (
   endpoint: string,
   stime: number,
@@ -30,16 +22,16 @@ const useFetchSeries = (
 
   const fetchData = useCallback(async (): Promise<any> => {
     try {
+      await dispatch(setError('', dataType));
       const res = await api.series(endpoint, {
         stime,
         etime,
       });
-
       const data = await processData(res.data.data);
       await dispatch(updateData(data, dataType));
       setTimeout(() => fetchData(), 30000);
     } catch (error) {
-      await dispatch(setError(error, dataType));
+      await dispatch(setError(error.message, dataType));
       setTimeout(() => fetchData(), 30000);
     }
   }, [endpoint, stime, etime, dispatch, dataType]);

@@ -11,11 +11,12 @@ const useFetch = (endpoints: string[], dataType: string): void => {
   const fetchData = useCallback(
     async (endpoints: string[], dataType): Promise<any> => {
       try {
+        await dispatch(setError('', dataType));
         const res: GroupData = await api.getDataSeries(endpoints);
         await dispatch(updateData(res, dataType));
         setTimeout(() => fetchData(endpoints, dataType), 30000);
       } catch (error) {
-        await dispatch(setError(error, dataType));
+        await dispatch(setError(error.message, dataType));
         setTimeout(() => fetchData(endpoints, dataType), 30000);
       }
     },

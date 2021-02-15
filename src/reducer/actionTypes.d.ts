@@ -4,7 +4,7 @@ export type ActionType = {
   type: DataActionTypes;
   dataType: string;
   data?: any[]; // (*)
-  state?: boolean;
+  message?: string;
 };
 
 export interface updateDataType {
@@ -16,5 +16,5 @@ export interface updateDataType {
 export interface setErrorType {
   type: DataActionTypes.SET_ERROR;
   dataType: string;
-  state: boolean;
+  message: string;
 }

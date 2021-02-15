@@ -68,17 +68,26 @@ const getOpenApi = (type: string) => (
     } else {
       reject('잘못된 API 정보');
     }
-  }).then(({ url, name }: any) =>
-    fetch(getPath(url, param), {
-      headers: OPEN_API_HEADERS,
-    } as HttpHeader)
-      .then(response => response.json())
-      .then(data => ({
-        key,
-        name,
-        data,
-      }))
-  );
+  })
+    .then(({ url, name }: any) =>
+      fetch(getPath(url, param), {
+        headers: OPEN_API_HEADERS,
+      } as HttpHeader)
+        .then(response => {
+          if (!response.ok) {
+            throw Error(`Request faild with ${response.status}`);
+            // Display error placeholder with status code
+            // dispatch(setError(response.status, dataType));
+          }
+          return response.json();
+        })
+        .then(data => ({
+          key,
+          name,
+          data,
+        }))
+    )
+    .catch(console.error);
 
 const spot = getOpenApi('');
 const series = getOpenApi('json');
