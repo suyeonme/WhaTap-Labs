@@ -1,15 +1,27 @@
 import { useEffect, useContext, useCallback } from 'react';
 
-import { setError, updateData } from 'reducer/actions';
+import { setError, updateSeriesData, initSeriesData } from 'reducer/actions';
 import { DataContext } from 'reducer/context';
 import { SeriesData, OriginalSeriesData } from 'types/types';
 import api from 'api/api';
 
+// (1) Initial data fetching
+// const MIN_30 = 30 * 60 * 1000
+// let stime: number = Date.now() - MIN_30;
+// let etime: number = Date.now();
+
+// (2) After initial data fetching
+// let stime = data[data.length - 1].timestamp;
+// let etime: number = Date.now();
+
+const MIN_30: number = 30 * 60 * 1000;
+let INITIAL_START_TIME: number = Date.now() - MIN_30;
+let END_TIME: number = Date.now();
+
 const useFetchSeries = (
   endpoint: string,
-  stime: number,
-  etime: number,
-  dataType: string
+  dataType: string,
+  lastTime: number
 ): void => {
   const { dispatch } = useContext(DataContext);
 
@@ -20,21 +32,40 @@ const useFetchSeries = (
     }));
   };
 
-  const fetchData = useCallback(async (): Promise<any> => {
+  const updateData = useCallback(async (): Promise<any> => {
     try {
-      await dispatch(setError('', dataType));
-      const res = await api.series(endpoint, {
-        stime,
-        etime,
-      });
-      const data = await processData(res.data.data);
-      await dispatch(updateData(data, dataType));
-      setTimeout(() => fetchData(), 30000);
+      if (lastTime) {
+        await console.log('update');
+        const res = await api.series(endpoint, {
+          stime: lastTime,
+          etime: END_TIME,
+        });
+        const data = await processData(res.data.data);
+        await dispatch(updateSeriesData(data, dataType));
+        setTimeout(() => updateData(), 20000);
+      }
     } catch (error) {
       await dispatch(setError(error.message, dataType));
-      setTimeout(() => fetchData(), 30000);
+      setTimeout(() => updateData(), 20000);
     }
-  }, [endpoint, stime, etime, dispatch, dataType]);
+  }, [dataType, dispatch, endpoint, lastTime]);
+
+  const fetchData = useCallback(async (): Promise<any> => {
+    try {
+      await console.log('initial');
+      await dispatch(setError('', dataType));
+      const res = await api.series(endpoint, {
+        stime: INITIAL_START_TIME,
+        etime: END_TIME,
+      });
+      const data = await processData(res.data.data);
+      await dispatch(initSeriesData(data));
+      setTimeout(() => updateData(), 20000);
+    } catch (error) {
+      await dispatch(setError(error.message, dataType));
+      setTimeout(() => updateData(), 20000);
+    }
+  }, [dataType, dispatch, updateData, endpoint]);
 
   useEffect(() => {
     fetchData();

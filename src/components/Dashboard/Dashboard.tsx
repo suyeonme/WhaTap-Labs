@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import useFetch from 'hooks/useFetch';
 import useFetchSeries from 'hooks/useFetchSeries';
 import { DataContext } from 'reducer/context';
+import { getLastSeriesTime } from 'utilities/utilities';
 import { ACTIVE_STATUS, INFORMATICS } from 'utilities/endpoints';
 import Informatics from 'components/Informatics/Informatics';
 import BarChart from 'components/BarChart/BarChart';
@@ -31,19 +32,18 @@ const Wrapper = styled.div`
   }
 `;
 
-// HERE
-const HOUR: number = 1000 * 60 * 60;
-let stime: number = Date.now() - HOUR;
-let etime: number = Date.now();
-// timestamp_last: data[data.length - 1];
-
 function Dashboard() {
-  useFetch(ACTIVE_STATUS, 'activeStatus');
-  useFetch(INFORMATICS, 'informatics');
-  useFetchSeries('visitor_5m/{stime}/{etime}', stime, etime, 'visitorPer5min');
-
   const { state } = useContext(DataContext);
   const { activeStatus, informatics, visitorPer5min } = state;
+
+  // Put a below logic into withLoading HOC
+  useFetch(ACTIVE_STATUS, 'activeStatus');
+  useFetch(INFORMATICS, 'informatics');
+  useFetchSeries(
+    'visitor_5m/{stime}/{etime}',
+    'visitorPer5min',
+    getLastSeriesTime(visitorPer5min)
+  );
 
   return (
     <Layout>

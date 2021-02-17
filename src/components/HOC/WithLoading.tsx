@@ -11,6 +11,7 @@ function WithLoading<P extends object>(
 ): React.FC<P & WithLoadingProps> {
   return function WihLoadingComponent({ dataObj, ...props }: WithLoadingProps) {
     const { loading, error } = dataObj;
+    // Display an error with response.status
 
     if (loading) {
       return <Placeholder>Loading...</Placeholder>;

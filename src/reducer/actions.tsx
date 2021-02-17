@@ -1,15 +1,41 @@
 import { DataActionTypes } from 'reducer/reducer';
-import { updateDataType, setErrorType } from 'reducer/actionTypes';
+import {
+  InitSeriesDataType,
+  UpdateSeriesDataType,
+  UpdateSpotDataType,
+  SetErrorType,
+} from 'reducer/actionTypes';
 
-export const updateData = (data: any[], dataType: string): updateDataType => {
+export const initSeriesData = (data: any[]): InitSeriesDataType => {
   return {
-    type: DataActionTypes.UPDATE_DATA,
+    type: DataActionTypes.INIT_SERIES_DATA,
+    data: data,
+  };
+};
+
+export const updateSeriesData = (
+  data: any[],
+  dataType: string
+): UpdateSeriesDataType => {
+  return {
+    type: DataActionTypes.UPDATE_SERIES_DATA,
     dataType: dataType,
     data: data,
   };
 };
 
-export const setError = (message: string, dataType: string): setErrorType => {
+export const updateSpotData = (
+  data: any[],
+  dataType: string
+): UpdateSpotDataType => {
+  return {
+    type: DataActionTypes.UPDATE_SPOT_DATA,
+    dataType: dataType,
+    data: data,
+  };
+};
+
+export const setError = (message: string, dataType: string): SetErrorType => {
   return {
     type: DataActionTypes.SET_ERROR,
     dataType: dataType,
