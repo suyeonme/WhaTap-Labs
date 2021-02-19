@@ -26,3 +26,14 @@ export const Axis = styled.g<{ axisType: string; innerHeight: number }>`
     stroke: none;
   }
 `;
+
+export const Indicator = styled.g`
+  line {
+    stroke: #9d9d9d;
+  }
+
+  rect {
+    fill: none;
+    pointer-events: all;
+  }
+`;

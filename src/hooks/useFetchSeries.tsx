@@ -1,5 +1,6 @@
 import { useEffect, useContext, useCallback } from 'react';
 
+import { NOW, DURATION } from 'utilities/utilities';
 import { setError, updateSeriesData, initSeriesData } from 'reducer/actions';
 import { DataContext } from 'reducer/context';
 import { SeriesData, OriginalSeriesData } from 'types/types';
@@ -13,10 +14,6 @@ import api from 'api/api';
 // (2) After initial data fetching
 // let stime = data[data.length - 1].timestamp;
 // let etime: number = Date.now();
-
-const MIN_30: number = 30 * 60 * 1000;
-let INITIAL_START_TIME: number = Date.now() - MIN_30;
-let END_TIME: number = Date.now();
 
 const useFetchSeries = (
   endpoint: string,
@@ -35,10 +32,10 @@ const useFetchSeries = (
   const updateData = useCallback(async (): Promise<any> => {
     try {
       if (lastTime) {
-        await console.log('update');
+        // await console.log('update');
         const res = await api.series(endpoint, {
           stime: lastTime,
-          etime: END_TIME,
+          etime: NOW,
         });
         const data = await processData(res.data.data);
         await dispatch(updateSeriesData(data, dataType));
@@ -52,11 +49,11 @@ const useFetchSeries = (
 
   const fetchData = useCallback(async (): Promise<any> => {
     try {
-      await console.log('initial');
+      // await console.log('initial');
       await dispatch(setError('', dataType));
       const res = await api.series(endpoint, {
-        stime: INITIAL_START_TIME,
-        etime: END_TIME,
+        stime: DURATION,
+        etime: NOW,
       });
       const data = await processData(res.data.data);
       await dispatch(initSeriesData(data));

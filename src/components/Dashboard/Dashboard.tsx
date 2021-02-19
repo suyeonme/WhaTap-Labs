@@ -37,8 +37,8 @@ function Dashboard() {
   const { activeStatus, informatics, visitorPer5min } = state;
 
   // Put a below logic into withLoading HOC
-  useFetch(ACTIVE_STATUS, 'activeStatus');
-  useFetch(INFORMATICS, 'informatics');
+  // useFetch(ACTIVE_STATUS, 'activeStatus');
+  // useFetch(INFORMATICS, 'informatics');
   useFetchSeries(
     'visitor_5m/{stime}/{etime}',
     'visitorPer5min',

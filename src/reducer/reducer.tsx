@@ -1,4 +1,6 @@
 import { ActionType } from 'reducer/actionTypes';
+import { SeriesData } from 'types/types';
+import { DURATION } from 'utilities/utilities';
 
 export enum DataActionTypes {
   SET_ERROR = 'SET_ERROR',
@@ -58,31 +60,26 @@ export const reducer = (
     case DataActionTypes.UPDATE_SERIES_DATA:
       // (1) Update new data (after initial rendering)
       // (2) Compare data and new data
-      // (3) If data[data.length - 1].timestamp is different with newData[newData.length - 1], push new data to data
+      // (3) If data[data.length - 1].timestamp is different with newData[0], push new data to data
       // (4) if data.timestamp < duration, slice and remove exceeded data partially.
 
-      // const previousData: SeriesData[] = state.visitorPer5min.data;
-      // const newData: SeriesData[] = action.data;
-      // const isUpdated: boolean =
-      //   previousData[previousData.length - 1] !== newData[newData.length - 1];
-
-      // const MIN_30: number = 30 * 60 * 1000;
-      // const duration: number = Date.now() - MIN_30;
-      // const filteredData = previousData.filter(
-      //   (data: SeriesData) => data.timestamp < duration
-      // );
-
+      const previousData: SeriesData[] = state.visitorPer5min.data;
+      const newData: SeriesData[] = action.data;
+      const shouldUpdate: boolean =
+        previousData[previousData.length - 1].timestamp !==
+        newData[0].timestamp;
+      const filteredData = previousData.filter(
+        (data: SeriesData) => data.timestamp >= DURATION
+      );
       // return {
       //   ...state,
       //   visitor5min: {
-      //     newData: isUpdated ? action.data : [],
-      //     data: isUpdated
-      //       ? [...state.visitorPer5min.data, ...action.data]
-      //       : state.visitorPer5min.data,
+      //     newData: action.data,
+      //     data: shouldUpdate ? [...filteredData, ...action.data] : filteredData,
       //     loading: false,
       //   },
       // };
-      // console.log(action.data);
+
       return {
         ...state,
         visitorPer5min: {

@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 import {
   scaleLinear,
   scaleTime,
@@ -9,7 +9,7 @@ import {
   axisLeft,
   axisBottom,
   easeLinear,
-  active,
+  pointer,
 } from 'd3';
 
 import { WIDTH, HEIGHT } from 'utilities/utilities';
@@ -17,6 +17,7 @@ import {
   OuterGroup,
   LinePath,
   Axis,
+  Indicator,
 } from 'components/LineChart/LineChartStyle';
 import TitleWithInfo from 'components/UI/TitleWithInfo';
 
@@ -30,11 +31,16 @@ const MODAL_CONTENT = `실시간 브라우저 사용자 수를 카운팅하여 �
 
 function LineChart({ title, dataObj }) {
   const { data } = dataObj;
+  const [selectedData, setSelectedData] = useState();
+  const [selectedTime, setSelectedTime] = useState(0);
+  const [isHover, setIsHover] = useState(false);
+  const [xPosition, setXPosition] = useState(0);
 
   const lineRef = useRef(null);
   const axesRef = useRef(null);
   const xAxisRef = useRef(null);
   const yAxisRef = useRef(null);
+  const rectRef = useRef(null);
 
   const xValue = d => d.timestamp;
   const yValue = d => d.value;
@@ -54,6 +60,19 @@ function LineChart({ title, dataObj }) {
     .y(d => yScale(yValue(d)))
     .curve(curveMonotoneX);
 
+  const handleMouseEnter = useCallback(() => {
+    setIsHover(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHover(false);
+  }, []);
+
+  const getSelectedData = data => {
+    console.log(data.filter(d => d.timestamp === selectedTime));
+    return data.find(d => d.timestamp === selectedTime);
+  };
+
   const handleDrawLine = useCallback(
     group => {
       group
@@ -71,31 +90,39 @@ function LineChart({ title, dataObj }) {
     const xAxis = axisBottom(xScale).tickSizeOuter(0);
     const yAxis = axisLeft(yScale).tickSizeOuter(0);
     yGroup.call(yAxis);
-    xGroup
-      .transition()
-      .duration(750)
-      .ease(easeLinear)
-      .call(xAxis)
-      .selectAll('text')
-      .style('text-anchor', 'end')
-      .attr('dx', '0')
-      .attr('dy', '0.9em');
-
-    // xGroup
-    //   .call(xAxis)
-    //   .transition()
-    //   .duration(750)
-    //   .ease(easeLinear)
-    //   .on('start', () => animate(xAxis, xGroup));
+    xGroup.call(xAxis).transition().duration(750).ease(easeLinear);
   }, [xScale, yScale]);
+
+  const handleDrawIndicator = useCallback(
+    group => {
+      group
+        .append('rect')
+        .merge(group.select('rect'))
+        .attr('width', INNER_WIDTH)
+        .attr('height', INNER_HEIGHT)
+        .on('mousemove', e => {
+          const x = pointer(e, group.node())[0];
+          const hoveredData = xScale.invert(x);
+          setSelectedTime(hoveredData.getTime());
+          setXPosition(x);
+          handleMouseEnter();
+        });
+    },
+    [handleMouseEnter, xScale]
+  );
 
   useEffect(() => {
     const lineGroup = select(lineRef.current);
     const AxesGroup = select(axesRef.current);
+    const IndicatorGroup = select(rectRef.current);
 
     handleDrawLine(lineGroup);
     handleDrawAxes(AxesGroup);
-  }, [handleDrawLine, handleDrawAxes]);
+    handleDrawIndicator(IndicatorGroup);
+  }, [handleDrawLine, handleDrawAxes, handleDrawIndicator]);
+
+  console.log(selectedTime);
+  console.log(getSelectedData(data));
 
   return (
     <ChartWrapper>
@@ -112,8 +139,22 @@ function LineChart({ title, dataObj }) {
               <Axis ref={yAxisRef} axisType="yAxis" />
             </g>
             <LinePath ref={lineRef} />
+            <Indicator
+              ref={rectRef}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}>
+              {isHover && (
+                <line
+                  y1={0}
+                  x1={xScale(selectedTime)}
+                  x2={xScale(selectedTime)}
+                  y2={INNER_HEIGHT}
+                />
+              )}
+            </Indicator>
           </OuterGroup>
         </svg>
+        {/* {isHover && <div>{selectedData.value}</div>} */}
       </Chart>
     </ChartWrapper>
   );
